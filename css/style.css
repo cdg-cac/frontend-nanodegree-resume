@@ -92,6 +92,16 @@ a {
   display: block;
 }
 
+#topContacts a {
+  margin-top: 0px;
+  display: inline;
+}
+
+#footerContacts a {
+  margin-top: 0px;
+  display: inline;
+}
+
 .welcome-message {
   font-style: italic;
   font-size: 18px;
@@ -113,7 +123,7 @@ a {
 }
 
 .white-text {
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #fff;
 }
 
@@ -146,6 +156,12 @@ a {
   flex-direction: column;
   flex-wrap: nowrap;
   padding: 10px;
+}
+
+#skills.flex-column {
+  display: flex;
+  flex-flow: column wrap;
+  height: 100px;
 }
 
 .center-content {

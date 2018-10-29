@@ -1,23 +1,14 @@
-
-var name = "Carrie Knowlton";
-var role = "Web Developer";
-var formattedName = HTMLheaderName.replace("%data%", name);
-var formattedRole = HTMLheaderRole.replace("%data%", role);
-
-$("#header").prepend(formattedRole);
-$("#header").prepend(formattedName);
-
 var bio = {
-    "name" : "Carrie",
+    "name" : "Carrie Knowlton",
     "role" : "Web Developer",
     "contacts": {
         "mobile": "901-216-0012",
-        "email": "carriedgibson@gmail.com",
-        "location": "Los Angeles"
+        "email": "<a href='mailto:carriedgibson@gmail.com'>carriedgibson@gmail.com</a>",
+        "location": "Los Angeles, CA"
     },
-    "picture URL" : "/images/pic.png",
-    "welcome message" : "Welcome!",
-    "skills" : ["javascript", "other things"]
+    "picture URL" : "images/gibson.jpg",
+    "welcome message" : "Thank you for taking the time to consider my skills and experience!",
+    "skills" : ["HTML", "CSS/Sass", "JavaScript/jQuery", "Bootstrap", "Git", "Developer Tools", "WordPress", "Drupal"]
 };
 
 var work = {
@@ -27,14 +18,14 @@ var work = {
             "title": "Front-End Programmer",
             "location": "Los Angeles, CA",
             "dates": "March 2017 - present",
-            "description": "lorem ipsum"
+            "description": "Manage front-end of enterprise website (https://uclaextension.edu) utilizing Drupal 8, JavaServer Pages, web services, HTML, CSS, JavaScript, Python, Bootstrap, AngularJS, Node.js, jQuery, fullpage.js, toastr.js, (various other JavaScript libraries). Manage department subsites utilizing WordPress including some custom theming. Isolate coding issues and provide solutions. Research/implement new ways to solve problems. Learn new technology as needed. Work with Marketing staff and academic departments"
         },
         {
-            "employer": "USC Center for Effective Organiations",
+            "employer": "USC Center for Effective Organizations",
             "title": "Webmaster",
             "location": "Los Angeles, CA",
             "dates": "November 2012 - March 2017",
-            "description": "lorem ipsum"
+            "description": "Serve as the Center’s Webmaster: Manage and create multiple websites hardcoded and on WordPress; Manage all web projects; Propose web solutions; Technical host to Center’s webinar series; Write, design, publish/post website content. Manage Center Marketing Communications: Develop and expand the Center’s online presence and public exposure in academia and the business management field by implementing improvements to the Center’s website; Responsible for Center’s strategic plan and execution of social media and digital marketing including mass emails; Manage Center webinars by utilizing Webex, recording the webinars, and editing / hosting videos on YouTube to post on website"
         }
     ]
 };
@@ -58,21 +49,21 @@ var education = {
     "schools": [
         {
             "name": "The University of Memphis",
-            "city": "Memphis, TN, US",
+            "city": "Memphis, TN",
             "degree": "BA",
             "major": "Anthropology",
             "gradYear": 2001
         },
         {
             "name": "The University of Memphis",
-            "city": "Memphis, TN, US",
+            "city": "Memphis, TN",
             "degree": "Masters",
             "major": "Anthropology",
             "gradYear": 2010
         },
         {
             "name": "Santa Monica College",
-            "city": "Santa Monica, CA, US",
+            "city": "Santa Monica, CA",
             "degree": "Certificate",
             "major": "Website Creator",
             "gradYear": 2015
@@ -83,41 +74,84 @@ var education = {
 var projects = {
     "projects": [
         {
-            "title": "Sample Project 1",
+            "title": "UCLA Extension Timeline",
             "dates": "2017",
-            "description": "lorem ipsum",
+            "description": "Timeline built with fullpage.js library.",
             "images": [
-                "/images/197x148.gif",
-                "/images/197x148.gif"
+                "images/projOne1.png",
+                "images/projOne2.png"
             ]
         }
     ]
 };
 
-if (bio.skills.length > 0) {
-    $("#header").append(HTMLskillsStart);
-    var formattedSkill = HTMLskills.replace("%data%", bio.skills[0]);
-    $("#skills").append(formattedSkill);
-    formattedSkill = HTMLskills.replace("%data%", bio.skills[1]);
-    $("#skills").append(formattedSkill);
-}
-$("#main").append(work["position"]);
-$("#main").append(education.schools);
+bio.display = function () {
+    var formattedName = HTMLheaderName.replace("%data%", bio.name);
+    var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+    var formattedWelcome = HTMLwelcomeMsg.replace("%data%", bio["welcome message"]);
 
-function displayWork() {
+    $("#header").prepend(formattedRole);
+    $("#header").prepend(formattedName);
+    $("#header").append(formattedWelcome);
+}
+bio.display();
+
+function displayContacts() {
+    var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
+    var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
+    var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
+
+    $("#topContacts, #footerContacts").append(formattedEmail, formattedMobile, formattedLocation);
+};
+displayContacts();
+
+if (bio["picture URL"].length > 0) {
+    var image = HTMLbioPic.replace("%data%", bio["picture URL"]);
+    $("#header").append(image);
+}
+
+$("#header").append(HTMLskillsStart);
+
+skills.display = function () {
+    for (skill = 0; skill < bio.skills.length; skill++) {
+        
+        var formattedSkill = HTMLskills.replace("%data%", bio.skills[skill]);
+        $("#skills").append(formattedSkill);
+    }
+}
+skills.display();
+
+work.display = function () {
     for (job = 0; job < work.jobs.length; job++) {
         $("#workExperience").append(HTMLworkStart);
 
         var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
         var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
         var formattedDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
+        var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
         var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
-        var formattedAll = formattedEmployer + formattedTitle + formattedDates + formattedDescription;
+        var formattedAll = formattedEmployer + formattedTitle + formattedDates + formattedLocation + formattedDescription;
 
         $(".work-entry:last").append(formattedAll);
     }
 }
-displayWork();
+work.display();
+
+education.display = function () {
+    for (edu = 0; edu < education.schools.length; edu++) {
+        $("#education").append(HTMLschoolStart);
+
+        var formattedName = HTMLschoolName.replace("%data%", education.schools[edu].name);
+        var formattedDegree = HTMLschoolDegree.replace("%data%", education.schools[edu].degree);
+        var formattedYear = HTMLschoolDates.replace("%data%", education.schools[edu].gradYear);
+        var formattedLocation = HTMLschoolLocation.replace("%data%", education.schools[edu].city);
+        var formattedMajor = HTMLschoolMajor.replace("%data%", education.schools[edu].major);
+        var formattedAll = formattedName + formattedDegree + formattedYear + formattedLocation + formattedMajor;
+
+        $(".education-entry:last").append(formattedAll);
+    }
+}
+education.display();
 
 projects.display = function() {
     for(project in projects.projects) {
